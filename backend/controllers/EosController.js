@@ -28,4 +28,4 @@ class EosController {
 	}
 }
 
-module.exports = new EosController();
+module.exports = EosController;
