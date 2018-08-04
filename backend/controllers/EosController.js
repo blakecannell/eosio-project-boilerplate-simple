@@ -11,7 +11,7 @@ config = {
 accountName = "johnsmith123";
 contractName = "straasapp112";
 tableName = "proposal";
-numberOfResults = "100";
+numberOfResults = 100;
 
 options = {
     authorization: 'johnsmith123@active',
@@ -38,7 +38,7 @@ class EosController {
     async castVote (req, res) {
         try {
             const { proposal, vote } = req.body;
-            const response = await eos.contract(contractName).then(contractName => contractName.castvote(accountName, proposal, vote));
+            const response = await eos.contract(contractName).then(contractName => contractName.castvote(accountName, proposal, vote, options));
             res.send(response);
         } catch (err) {
             console.log(err);
@@ -49,23 +49,15 @@ class EosController {
 	async getAll (req, res) {
 		try {
 			console.log(req.body);
-			eos.getTableRows(
+			const result = await eos.getTableRows(
                 {
                     json: true,
                     code: contractName, //eos.token
-                    scope: accountName, //
+                    scope: contractName, //
                     table: tableName, //the name of the table
                     limit: numberOfResults //maximum number of
-                }
-            ).then(
-                (result) => {
-                	console.log(result);
-                	res.send(result);
-                }).catch(
-                (err) => {
-                    console.log(err);
-                    res.status(500).send(err);
                 });
+            res.send(result);
 		} catch (err) {
 			console.log(err);
 			res.status(500).send(err);
@@ -78,7 +70,7 @@ class EosController {
                 {
                     json: true,
                     code: contractName, //eos.token
-                    scope: accountName, //
+                    scope: contractName, //
                     table: tableName, //the name of the table
 					lower_bound: req.body.id,
                     limit: numberOfResults //maximum number of
