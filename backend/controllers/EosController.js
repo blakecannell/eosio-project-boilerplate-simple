@@ -38,7 +38,9 @@ class EosController {
     async castVote (req, res) {
         try {
             const { proposal, vote } = req.body;
-            const response = await eos.contract(contractName).then(contractName => contractName.castvote(accountName, proposal, vote, options));
+            console.log(proposal);
+            console.log(vote);
+            const response = await eos.contract(contractName).then(contractName => contractName.castvote(accountName, proposal, votei, options));
             res.send(response);
         } catch (err) {
             console.log(err);
