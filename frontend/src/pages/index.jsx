@@ -18,15 +18,15 @@ import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-// import style from './index.css';
+import style from './index.css';
 
 // api
 import Api from '../api';
 
 // pages
 import Dashboard from './dashboard';
-import Proposals from './proposals';
-import Voting from './voting';
+import Proposal from './proposal';
+import CreateProposal from './create-proposal';
 
 // NEVER store private keys in any source code in your real life development
 // This is for demo purposes only!
@@ -44,6 +44,9 @@ const accounts = [
 const styles = theme => ({
   card: {
     margin: 20,
+  },
+  shiftRight: {
+    marginRight: 20
   },
   paper: {
     ...theme.mixins.gutters(),
@@ -156,8 +159,8 @@ class Index extends Component {
             </Link>
           </ListItem>
           <ListItem button>
-            <Link to="/voting" onClick={this.handleDrawerToggle.bind(this)}>
-              <ListItemText>Voting</ListItemText>
+            <Link to="/create" onClick={this.handleDrawerToggle.bind(this)}>
+              <ListItemText>Create Proposal</ListItemText>
             </Link>
           </ListItem>
         </List>
@@ -191,60 +194,53 @@ class Index extends Component {
 
     //
 
+    // <IconButton
+    // color="inherit"
+    // aria-label="Open drawer"
+    // onClick={this.handleDrawerToggle}
+    // className={classes.navIconHide}>
+    // <MenuIcon />
+    // </IconButton>
+
     return (
       <Router>
         <div>
-          <AppBar position="static" color="default">
-            <Toolbar>
-              <IconButton
-                color="inherit"
-                aria-label="Open drawer"
-                onClick={this.handleDrawerToggle}
-                className={classes.navIconHide}>
-                <MenuIcon />
-              </IconButton>
-              <Typography variant="title" color="inherit">
-                StraaS
+          <AppBar position="static" color="default" className="allRed">
+            <Toolbar className="toolBar">
+              <Link to="/" className="logo">
+                <Typography variant="title" color="inherit">
+                  StraaS
+                </Typography>
+              </Link>
+              <Typography variant="title" color="inherit" className="tagline">
+                Strata As A Service...
               </Typography>
             </Toolbar>
           </AppBar>
-          <Hidden mdUp>
-            <Drawer
-              variant="temporary"
-              anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-              open={this.state.mobileOpen}
-              onClose={this.handleDrawerToggle}
-              classes={{
-                paper: classes.drawerPaper,
-              }}
-              ModalProps={{
-                keepMounted: true, // Better open performance on mobile.
-              }}
-            >
-              {drawer}
-            </Drawer>
-          </Hidden>
-          <Hidden smDown implementation="css">
-            <Drawer
-              variant="permanent"
-              open
-              classes={{
-                paper: classes.drawerPaper,
-              }}
-            >
-              {drawer}
-            </Drawer>
-          </Hidden>
+          <Drawer
+            variant="temporary"
+            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+            open={this.state.mobileOpen}
+            onClose={this.handleDrawerToggle}
+            classes={{
+              paper: classes.drawerPaper
+            }}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
+          >
+            {drawer}
+          </Drawer>
 
           <div>
             <Route exact path="/" render={() => (
               <Dashboard api={this.api} />
             )}/>
-            <Route path="/proposals" render={() => (
-              <Proposals api={this.api} />
+            <Route path="/proposal/:id" render={({ match }) => (
+              <Proposal api={this.api} params={match.params} />
             )}/>
-            <Route path="/voting" render={() => (
-              <Voting api={this.api} />
+            <Route path="/create" render={() => (
+              <CreateProposal api={this.api} />
             )}/>
           </div>
         </div>

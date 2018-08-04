@@ -1,3 +1,54 @@
+body {
+  font-family: 'ITC Avant Garde Gothic Std', sans-serif;
+}
 .allRed {
-  background: red;
+}
+
+.toolBar {
+  background: #fff;
+  padding: 0 !important;
+  justify-content: space-between;
+}
+
+.logo {
+  height: 64px;
+  width: 160px;
+  background: #ff4b3e;
+  color: #fff;
+  text-decoration: none;
+  display: block;
+  position: relative;
+  overflow: hidden;
+  padding: 0 0 0 20px;
+}
+
+.logo:after {
+  height: 120px;
+  width: 120px;
+  background: #fff;
+  content: "";
+  position: absolute;
+  top: 51px;
+  right: -73px;
+  transform: rotate(30deg);
+  transform-origin: right;
+}
+
+.logo h2 {
+  line-height: 74px;
+  font-family: 'ITC Avant Garde Gothic Std', sans-serif;
+  font-size: 33px;
+  /* text-align: center; */
+}
+
+.tagline {
+  font-family: 'ITC Avant Garde Gothic Std', sans-serif !important;
+  float: right;
+  padding: 0 20px 0 0;
+  font-size: 18px !important;
+  font-style: italic;
+}
+
+.btn span:first {
+  background: #ff4b3e;
 }
