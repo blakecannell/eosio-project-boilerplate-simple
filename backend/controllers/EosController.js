@@ -8,9 +8,11 @@ config = {
     sign: true
 };
 accountName = "johnsmith123";
-contractName = "Straasapp123";
+contractName = "Straasapp111";
 tableName = "proposal";
 numberOfResults = "100";
+
+
 class EosController {
 	constructor() {
 	}
