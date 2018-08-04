@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Eos from 'eosjs'; // https://github.com/EOSIO/eosjs
 import PropTypes from 'prop-types';
+import { Link, BrowserRouter as Router, Route } from 'react-router-dom';
 
 // material-ui dependencies
 import { withStyles } from '@material-ui/core/styles';
@@ -20,6 +21,7 @@ import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import Grid from '@material-ui/core/Grid';
 import style from './index.css';
 
 // NEVER store private keys in any source code in your real life development
@@ -69,6 +71,7 @@ class Index extends Component {
     this.handleDrawerToggle = () => {
       this.setState(state => ({ mobileOpen: !state.mobileOpen }));
     };
+    console.log("index construct");
   }
 
   // generic function to handle form events (e.g. "submit" / "reset")
@@ -135,6 +138,7 @@ class Index extends Component {
   }
 
   render() {
+    let root = "/";
     // const { noteTable } = this.state;
     const { classes, theme } = this.props;
 
@@ -143,10 +147,19 @@ class Index extends Component {
         <div className={classes.toolbar} />
         <List>
           <ListItem button>
-            <ListItemText primary="Dashboard" />
+            <Link to="/" onClick={this.handleDrawerToggle.bind(this)}>
+              <ListItemText>Dashboard</ListItemText>
+            </Link>
           </ListItem>
-          <ListItem button component="a" href="#simple-list">
-            <ListItemText primary="Voting" />
+          <ListItem button>
+            <Link to="/proposals" onClick={this.handleDrawerToggle.bind(this)}>
+              <ListItemText>Proposals</ListItemText>
+            </Link>
+          </ListItem>
+          <ListItem button>
+            <Link to="/voting" onClick={this.handleDrawerToggle.bind(this)}>
+              <ListItemText>Voting</ListItemText>
+            </Link>
           </ListItem>
         </List>
       </div>
@@ -177,55 +190,85 @@ class Index extends Component {
     //   accounts = { JSON.stringify(accounts, null, 2) }
     // </pre>
 
-    return (
-      <div>
-        <AppBar position="static" color="default">
-          <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="Open drawer"
-              onClick={this.handleDrawerToggle}
-              className={classes.navIconHide}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="title" color="inherit">
-              StraaS
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <Hidden mdUp>
-          <Drawer
-            variant="temporary"
-            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-            open={this.state.mobileOpen}
-            onClose={this.handleDrawerToggle}
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            ModalProps={{
-              keepMounted: true, // Better open performance on mobile.
-            }}
-          >
-            {drawer}
-          </Drawer>
-        </Hidden>
-        <Hidden smDown implementation="css">
-          <Drawer
-            variant="permanent"
-            open
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-          >
-            {drawer}
-          </Drawer>
-        </Hidden>
-        <Paper className={classes.paper}>
-          Dashboard
-        </Paper>
+    //
 
-      </div>
+    return (
+      <Router>
+        <div>
+          <AppBar position="static" color="default">
+            <Toolbar>
+              <IconButton
+                color="inherit"
+                aria-label="Open drawer"
+                onClick={this.handleDrawerToggle}
+                className={classes.navIconHide}>
+                <MenuIcon />
+              </IconButton>
+              <Typography variant="title" color="inherit">
+                StraaS
+              </Typography>
+            </Toolbar>
+          </AppBar>
+          <Hidden mdUp>
+            <Drawer
+              variant="temporary"
+              anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+              open={this.state.mobileOpen}
+              onClose={this.handleDrawerToggle}
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+              ModalProps={{
+                keepMounted: true, // Better open performance on mobile.
+              }}
+            >
+              {drawer}
+            </Drawer>
+          </Hidden>
+          <Hidden smDown implementation="css">
+            <Drawer
+              variant="permanent"
+              open
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+            >
+              {drawer}
+            </Drawer>
+          </Hidden>
+
+          <div>
+            <Route exact path="/" render={() => (
+              <Grid container spacing={24}>
+                <Paper className={classes.paper}>
+                  Dashboard
+                </Paper>
+              </Grid>
+            )}/>
+            <Route path="/proposals" render={() => (
+              <Grid container spacing={24}>
+                <Grid item xs={6}>
+                  <Paper className={classes.paper}>
+                    <ul>
+                      <li>Open Proposals</li>
+                      <li>Create Proposal</li>
+                    </ul>
+                  </Paper>
+                </Grid>
+              </Grid>
+            )}/>
+            <Route path="/voting" render={() => (
+              <Grid container spacing={24}>
+                <Grid item xs={6}>
+                  <Paper className={classes.paper}>
+                    Voting
+                  </Paper>
+                </Grid>
+              </Grid>
+            )}/>
+          </div>
+        </div>
+      </Router>
     );
   }
 
