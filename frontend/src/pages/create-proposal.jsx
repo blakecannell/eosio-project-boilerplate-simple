@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
 // import style from './index.css';
 
 const styles = theme => ({
@@ -19,7 +18,7 @@ const styles = theme => ({
 });
 
 // Index component
-class Dashboard extends Component {
+class CreateProposal extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -38,27 +37,13 @@ class Dashboard extends Component {
 
   render() {
     // const { noteTable } = this.state;
-    const { classes } = this.props,
-          { proposals } = this.state;
+    const { classes } = this.props;
 
     return (
       <React.Fragment>
-        <h2>Active Proposals</h2>
+        <h2>Create Proposal</h2>
         <Grid container>
-          {proposals.map((prop, i) => {
-            return <Grid item xs={12}>
-              <Paper key={i} className={classes.paper}>
-                {prop.name}
-              </Paper>
-            </Grid>
-          })}
-          <Grid container>
-          <Button variant="contained" color="primary" className="btn">
-            <Link to="/create">
-              Create Proposal
-            </Link>
-          </Button>
-          </Grid>
+          awd
         </Grid>
       </React.Fragment>
     );
@@ -66,9 +51,9 @@ class Dashboard extends Component {
 
 }
 
-Dashboard.propTypes = {
+CreateProposal.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(Dashboard);
+export default withStyles(styles, { withTheme: true })(CreateProposal);
