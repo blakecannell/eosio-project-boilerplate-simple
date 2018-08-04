@@ -52,7 +52,7 @@ class Dashboard extends Component {
               <h1>Active Proposals</h1>
               {proposals.map((prop, i) => {
                 return <Grid item xs={12}>
-                  <Link to={`/proposal/${prop.documenthash}`}>
+                  <Link to={`/proposal/${prop.key}`}>
                     <Paper key={i} className={classes.paper}>
                       {prop.title}
                       <Avatar className="proposalInfo">

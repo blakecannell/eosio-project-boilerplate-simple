@@ -26,8 +26,8 @@ class EosController {
 
 	async createProposal (req, res) {
 		try {
-            const { hash, title } = req.body;
-            const response = await eos.contract(contractName).then(contractName => contractName.createprop(accountName, title, hash, options));
+      const { hash, title } = req.body;
+      const response = await eos.contract(contractName).then(contractName => contractName.createprop(accountName, title, hash, options));
 			res.send(response);
 		} catch (err) {
 			console.log(err);
@@ -40,7 +40,7 @@ class EosController {
             const { proposal, vote } = req.body;
             console.log(proposal);
             console.log(vote);
-            const response = await eos.contract(contractName).then(contractName => contractName.castvote(accountName, proposal, votei, options));
+            const response = await eos.contract(contractName).then(contractName => contractName.castvote(accountName, proposal, vote, options));
             res.send(response);
         } catch (err) {
             console.log(err);
@@ -50,7 +50,6 @@ class EosController {
 
 	async getAll (req, res) {
 		try {
-			console.log(req.body);
 			const result = await eos.getTableRows(
                 {
                     json: true,
@@ -59,7 +58,10 @@ class EosController {
                     table: tableName, //the name of the table
                     limit: numberOfResults //maximum number of
                 });
-            res.send(result);
+            res.send({
+              success: true,
+              rows: result.rows
+            });
 		} catch (err) {
 			console.log(err);
 			res.status(500).send(err);
@@ -80,7 +82,10 @@ class EosController {
                     limit: numberOfResults //maximum number of
                 }
             );
-            res.send(response);
+            res.send({
+              success: true,
+              proposal: response.rows.length ? response.rows[0] : null
+            });
         } catch (err) {
             console.log(err);
             res.status(500).send(err);

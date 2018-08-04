@@ -38,16 +38,16 @@ export default class Api {
   }
 
   getById(id) {
-    return this.createRequest('getById', 'GET', { id: id });
+    return this.createRequest(`getById/${id}`, 'GET');
   }
 
   createProposal(proposal) {
-    // hash
-    // title
+    return this.createRequest('createProposal', 'POST', proposal);
   }
 
   castVote(vote) {
     // title
     // vote
+    return this.createRequest('castVote', 'POST', vote);
   }
 }

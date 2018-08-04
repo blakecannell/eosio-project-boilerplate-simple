@@ -8,6 +8,7 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import style from './index.css';
 
 const styles = theme => ({
@@ -34,16 +35,16 @@ class Proposal extends Component {
     console.log('id', this.props.params.id);
     this.api.getById(this.props.params.id).then(res => {
       console.log('res', res);
-      // if (res.success) {
-      //   this.setState({ proposals: res.proposals });
-      // }
+      if (res.success) {
+        this.setState({ proposal: res.proposal });
+      }
     });
 
-    this.setState({ proposal: { id: 0,
-      name: 'Proposal name',
-      desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      isclosed: 1
-    }});
+    // this.setState({ proposal: { id: 0,
+    //   name: 'Proposal name',
+    //   desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    //   isclosed: 1
+    // }});
 
     // isclosed:
     // 0 - Open
@@ -59,19 +60,22 @@ class Proposal extends Component {
     // const { noteTable } = this.state;
     const { classes } = this.props,
           { proposal } = this.state,
-          status = proposal.isclosed ? 'closed' : 'open';
+          status = proposal.isclosed ? 'closed' : 'open',
+          accepted = proposal.isclosed && proposal.result === 1,
+          tied = proposal.isclosed && proposal.result === 2,
+          decision = accepted ? 'accepted' : (tied ? 'tied on' : 'declined');
 
-          // console.log('proposal', proposal);
+          console.log('proposal', proposal);
           // console.log('status', status);
 
     return (
       <Grid container spacing={24}>
         <Grid item xs={8} container direction="row" className="centeredContainer singleProposal">
           <Paper className="paper">
-            { proposal.id !== undefined ?
+            { proposal.key !== undefined ?
               <React.Fragment>
                 <h1>
-                  {proposal.name}
+                  {proposal.title}
                   { status === 'open' ?
                   <Chip
                   label="Open"
@@ -92,9 +96,12 @@ class Proposal extends Component {
                     Vote No
                   </Button>
                 </React.Fragment> :
-                <span>Voting is closed</span> }
+                <span>Voting is over - The community {decision} the proposal.</span>
+              }
               </React.Fragment> :
-              <h1>null</h1>
+              <React.Fragment>
+                <CircularProgress className="straas-loader" thickness={7} />
+              </React.Fragment>
             }
           </Paper>
         </Grid>
