@@ -9,6 +9,8 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 // import style from './index.css';
 
+import md5 from 'md5';
+
 const styles = theme => ({
   paper: {
     ...theme.mixins.gutters(),
@@ -22,7 +24,7 @@ class CreateProposal extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      proposals: []
+      proposal: {}
     };
     this.api = this.props.api;
   }
@@ -35,15 +37,52 @@ class CreateProposal extends Component {
     });
   }
 
+  submitProposal() {
+    // author
+    // title
+    // documenthash
+  }
+
+  handleInputChange(event) {
+    const { value } = event.target,
+          attr = event.target.name;
+
+    this.setState({ proposal: {
+      [attr]: value
+    } });
+  }
+
+  handleFileUpload(event) {
+    const hash = md5(event.target.files[0]);
+    this.setState({ proposal: {
+      documenthash: hash
+    }})
+  }
+
   render() {
     // const { noteTable } = this.state;
-    const { classes } = this.props;
+    const { classes } = this.props,
+          { proposal } = this.state;
 
     return (
       <React.Fragment>
-        <h2>Create Proposal</h2>
-        <Grid container>
-          awd
+        <Grid container spacing={24}>
+          <Grid item xs={8} container direction="row" className="centeredContainer">
+            <Paper className="paper">
+              <h1>Create Proposal</h1>
+              <form>
+                <h4>Proposal Name</h4>
+                <input type="text" name="title" value={proposal.name} onChange={this.handleInputChange.bind(this)} />
+                <h4>Proposal Document</h4>
+                <input type="file"
+                   id="document" name="document"
+                   accept="application/pdf"
+                   onChange={this.handleFileUpload.bind(this)}/>
+                <h4>Hash</h4>
+                <span>{proposal.documenthash}</span>
+              </form>
+            </Paper>
+          </Grid>
         </Grid>
       </React.Fragment>
     );

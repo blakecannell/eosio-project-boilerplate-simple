@@ -1,7 +1,31 @@
 body {
   font-family: 'ITC Avant Garde Gothic Std', sans-serif;
 }
-.allRed {
+
+.centeredContainer {
+  margin: 0 auto !important;
+}
+
+.centeredContainer h1 {}
+
+.centeredContainer p {
+  font-family: 'Roboto';
+}
+
+.centeredContainer .paper {
+  margin: 20px 0 0;
+  padding: 0 20px 20px 20px;
+  width: 100%;
+}
+
+.centeredContainer .paper .chip {
+  float: right;
+}
+.centeredContainer .paper .open {
+  background: #61ca5c;
+}
+.centeredContainer .paper .closed {
+  background: #ff4b3e;
 }
 
 .toolBar {
@@ -43,12 +67,12 @@ body {
 
 .tagline {
   font-family: 'ITC Avant Garde Gothic Std', sans-serif !important;
-  float: right;
   padding: 0 20px 0 0;
   font-size: 18px !important;
   font-style: italic;
+  width: calc(100% - 120px - 48px) !important;
 }
 
-.btn span:first {
+/* .btn span:first {
   background: #ff4b3e;
-}
+} */

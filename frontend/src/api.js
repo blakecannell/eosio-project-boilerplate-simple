@@ -34,6 +34,16 @@ export default class Api {
   }
 
   getProposals() {
-    return this.createRequest('proposals', 'GET');
+    return this.createRequest('getAll', 'GET');
+  }
+
+  createProposal(proposal) {
+    // hash
+    // title
+  }
+
+  castVote(vote) {
+    // title
+    // vote 
   }
 }
