@@ -37,6 +37,10 @@ export default class Api {
     return this.createRequest('getAll', 'GET');
   }
 
+  getById(id) {
+    return this.createRequest('getById', 'GET', { id: id });
+  }
+
   createProposal(proposal) {
     // hash
     // title
@@ -44,6 +48,6 @@ export default class Api {
 
   castVote(vote) {
     // title
-    // vote 
+    // vote
   }
 }

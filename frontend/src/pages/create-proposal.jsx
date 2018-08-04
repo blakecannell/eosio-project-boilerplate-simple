@@ -48,15 +48,29 @@ class CreateProposal extends Component {
           attr = event.target.name;
 
     this.setState({ proposal: {
+      ...this.state.proposal,
       [attr]: value
     } });
   }
 
   handleFileUpload(event) {
-    const hash = md5(event.target.files[0]);
-    this.setState({ proposal: {
-      documenthash: hash
-    }})
+    // const reader = new FileReader();
+    let file = event.target.files[0],
+        reader = new FileReader();
+
+    reader.onload = (e) => {
+      let bin = md5(e.target.result);
+      console.log('bin', bin);
+      this.setState({ proposal: {
+        documenthash: bin
+      }});
+    };
+
+    reader.readAsBinaryString(file);
+    // const hash = md5(event.target.files[0]);
+    // this.setState({ proposal: {
+    //   documenthash: hash
+    // }})
   }
 
   render() {

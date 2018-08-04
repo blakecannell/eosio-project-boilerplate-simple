@@ -27,15 +27,17 @@ class Proposal extends Component {
     };
     this.api = this.props.api;
 
-    console.log('prop', this.props);
+    // console.log('prop', this.props);
   }
 
   componentDidMount() {
-    // this.api.getProposal().then(res => {
-    //   if (res.success) {
-    //     this.setState({ proposals: res.proposals });
-    //   }
-    // });
+    console.log('id', this.props.params.id);
+    this.api.getById(this.props.params.id).then(res => {
+      console.log('res', res);
+      // if (res.success) {
+      //   this.setState({ proposals: res.proposals });
+      // }
+    });
 
     this.setState({ proposal: { id: 0,
       name: 'Proposal name',
@@ -59,8 +61,8 @@ class Proposal extends Component {
           { proposal } = this.state,
           status = proposal.isclosed ? 'closed' : 'open';
 
-          console.log('proposal', proposal);
-          console.log('status', status);
+          // console.log('proposal', proposal);
+          // console.log('status', status);
 
     return (
       <Grid container spacing={24}>

@@ -28,6 +28,10 @@ body {
   background: #ff4b3e;
 }
 
+.proposalInfo {
+  float: right;
+}
+
 .toolBar {
   background: #fff;
   padding: 0 !important;

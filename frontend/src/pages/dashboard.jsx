@@ -8,6 +8,8 @@ import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import AssignmentIcon from '@material-ui/icons/Assignment';
+import Avatar from '@material-ui/core/Avatar';
 // import style from './index.css';
 
 const styles = theme => ({
@@ -30,9 +32,9 @@ class Dashboard extends Component {
 
   componentDidMount() {
     this.api.getProposals().then(res => {
-      // console.log("GET ALL", res);
+      console.log("GET ALL", res);
       if (res.success) {
-        this.setState({ proposals: res.proposals });
+        this.setState({ proposals: res.rows });
       }
     });
   }
@@ -50,9 +52,14 @@ class Dashboard extends Component {
               <h1>Active Proposals</h1>
               {proposals.map((prop, i) => {
                 return <Grid item xs={12}>
-                  <Paper key={i} className={classes.paper}>
-                    {prop.name}
-                  </Paper>
+                  <Link to={`/proposal/${prop.documenthash}`}>
+                    <Paper key={i} className={classes.paper}>
+                      {prop.title}
+                      <Avatar className="proposalInfo">
+                        <AssignmentIcon />
+                      </Avatar>
+                    </Paper>
+                  </Link>
                 </Grid>
               })}
               <Button variant="contained" color="primary" className="btn">
