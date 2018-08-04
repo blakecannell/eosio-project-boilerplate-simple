@@ -11,6 +11,8 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import style from './index.css';
 
+import { Document } from 'react-pdf'
+
 const styles = theme => ({
   paper: {
     ...theme.mixins.gutters(),
@@ -63,10 +65,9 @@ class Proposal extends Component {
           status = proposal.isclosed ? 'closed' : 'open',
           accepted = proposal.isclosed && proposal.result === 1,
           tied = proposal.isclosed && proposal.result === 2,
-          decision = accepted ? 'accepted' : (tied ? 'tied on' : 'declined');
+          decision = accepted ? 'accepted' : (tied ? 'tied' : 'declined');
 
-          console.log('proposal', proposal);
-          // console.log('status', status);
+          proposal.desc = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.";
 
     return (
       <Grid container spacing={24}>
@@ -82,11 +83,18 @@ class Proposal extends Component {
                   className="chip open"
                   /> :
                   <Chip
-                  label="Closed"
-                  className="chip closed"
+                  label={decision}
+                  className={`chip ${decision}`}
                   /> }
                 </h1>
-                <p>{proposal.desc}</p>
+                <Grid container>
+                  <Grid item xs={6}>
+                    <p>{proposal.desc}</p>
+                  </Grid>
+                  <Grid item xs={6} className="pdfPrev">
+                    <img src="../img/pdf-prev.png"/>
+                  </Grid>
+                </Grid>
                 { status === 'open' ?
                 <React.Fragment>
                   <Button variant="contained" color="primary" className="btn">
@@ -97,7 +105,7 @@ class Proposal extends Component {
                   </Button>
                 </React.Fragment> :
                 <span>Voting is over - The community {decision} the proposal.</span>
-              }
+                }
               </React.Fragment> :
               <React.Fragment>
                 <CircularProgress className="straas-loader" thickness={7} />

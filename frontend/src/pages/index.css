@@ -1,5 +1,18 @@
 body {
   font-family: 'ITC Avant Garde Gothic Std', sans-serif;
+  color: #000;
+}
+
+.balance {
+  font-size: 14px;
+  margin: 0 10px 0 0 !important;
+}
+
+.pdfPrev img {
+  width: 60%;
+  margin: 20px auto;
+  display: block;
+  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12);
 }
 
 .centeredContainer {
@@ -19,21 +32,49 @@ body {
 }
 
 .centeredContainer .paper h1 {
-  margin: 0;
+  margin: 0 0 20px;
 }
 
 .centeredContainer .paper .chip {
   float: right;
+  text-transform: capitalize;
 }
-.centeredContainer .paper .open {
+
+.centeredContainer .paper .accepted {
   background: #61ca5c;
+  color: #fff;
 }
-.centeredContainer .paper .closed {
-  background: #ff4b3e;
+.centeredContainer .paper .tied {
+  background: #f0f226;
+}
+.centeredContainer .paper .declined {
+  color: #fff;
+  background: #b1362d;
+}
+
+.budget img {
+  width: 100%;
+}
+
+.budget strong {
+  font-size: 25px;
+}
+
+.budget-flex {
+  display: flex;
+  align-items: center;
 }
 
 .proposalInfo {
   float: right;
+}
+
+.fr {
+  float: right;
+}
+
+.btn {
+  color: #fff !important;
 }
 
 .toolBar {
@@ -85,6 +126,28 @@ body {
   color: #ff0000 !important;
   margin: 0 auto;
   display: block !important;
+}
+
+.home-list-item {
+  padding: 10px;
+  margin: 0 0 10px;
+  line-height: 32px;
+}
+.home-status {
+  float: right;
+  font-size: 11px;
+  color: #000;
+}
+.home-list-item .accepted {
+  background: #61ca5c;
+  color: #fff;
+}
+.home-list-item .tied {
+  background: #f0f226;
+}
+.home-list-item .declined {
+  color: #fff;
+  background: #b1362d;
 }
 
 /* .btn span:first {

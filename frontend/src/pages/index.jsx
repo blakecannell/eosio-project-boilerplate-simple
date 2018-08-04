@@ -208,13 +208,9 @@ class Index extends Component {
               <Typography variant="title" color="inherit" className="tagline">
                 Strata As A Service...
               </Typography>
-              <IconButton
-              color="inherit"
-              aria-label="Open drawer"
-              onClick={this.handleDrawerToggle}
-              className={classes.navIconHide}>
-              <MenuIcon />
-              </IconButton>
+              <Typography color="inherit" className="balance">
+                $820.32
+              </Typography>
               <Avatar alt="Anya Nova" src="/img/anya.jpeg" className={classes.avatar} />
             </Toolbar>
           </AppBar>

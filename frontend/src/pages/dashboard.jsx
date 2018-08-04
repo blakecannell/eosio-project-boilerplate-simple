@@ -10,6 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import Avatar from '@material-ui/core/Avatar';
+import Chip from '@material-ui/core/Chip';
 // import style from './index.css';
 
 const styles = theme => ({
@@ -44,29 +45,68 @@ class Dashboard extends Component {
     const { classes } = this.props,
           { proposals } = this.state;
 
+          console.log('props', proposals);
+
     return (
       <React.Fragment>
         <Grid container spacing={24}>
           <Grid item xs={8} container direction="row" className="centeredContainer singleProposal">
             <Paper className="paper">
-              <h1>Active Proposals</h1>
+              <h1>
+                Active Proposals
+                <Button variant="contained" color="primary" className="btn fr">
+                  <Link to="/create">
+                    Create Proposal
+                  </Link>
+                </Button>
+              </h1>
               {proposals.map((prop, i) => {
+                let status = prop.isclosed ? 'closed' : 'open',
+                accepted = prop.isclosed && prop.result === 1,
+                tied = prop.result === 2,
+                decision = accepted ? 'accepted' : (tied ? 'tied' : 'declined'),
+                classes = `home-status ${decision}`;
                 return <Grid item xs={12}>
                   <Link to={`/proposal/${prop.key}`}>
-                    <Paper key={i} className={classes.paper}>
+                    <Paper key={i} className={`home-list-item ${classes.paper}`}>
                       {prop.title}
-                      <Avatar className="proposalInfo">
-                        <AssignmentIcon />
-                      </Avatar>
+                      { status === 'open' ?
+                        <Chip
+                        label="Open for voting"
+                        className="chip open"
+                        /> :
+                        <Chip
+                        label={`Proposal ${decision}`}
+                        className={`chip ${decision}`}
+                        />
+                      }
+
                     </Paper>
                   </Link>
                 </Grid>
               })}
-              <Button variant="contained" color="primary" className="btn">
-                <Link to="/create">
-                  Create Proposal
-                </Link>
-              </Button>
+            </Paper>
+          </Grid>
+        </Grid>
+        <Grid container spacing={24}>
+          <Grid item xs={8} container direction="row" className="centeredContainer budget">
+            <Paper className="paper">
+              <h1>
+                Live Budget
+              </h1>
+              <Grid container>
+                <Grid item xs={4} className="budget-flex">
+                  <span><strong>$500,000</strong><br/>
+                  / Budget</span>
+                </Grid>
+                <Grid item xs={4} className="budget-flex">
+                  <span><strong>$300,000</strong><br/>
+                  / Spent</span>
+                </Grid>
+                <Grid item xs={4}>
+                  <img src="img/budget.png"/>
+                </Grid>
+              </Grid>
             </Paper>
           </Grid>
         </Grid>
