@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Eos from 'eosjs'; // https://github.com/EOSIO/eosjs
+import PropTypes from 'prop-types';
 
 // material-ui dependencies
 import { withStyles } from '@material-ui/core/styles';
@@ -11,6 +12,15 @@ import CardContent from '@material-ui/core/CardContent';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import Hidden from '@material-ui/core/Hidden';
+import Divider from '@material-ui/core/Divider';
+import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import style from './index.css';
 
 // NEVER store private keys in any source code in your real life development
 // This is for demo purposes only!
@@ -43,7 +53,10 @@ const styles = theme => ({
     padding: 10,
     marginBottom: 0.
   },
+  toolbar: theme.mixins.toolbar,
 });
+
+console.log('toolbar', styles);
 
 // Index component
 class Index extends Component {
@@ -51,9 +64,11 @@ class Index extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      noteTable: [] // to store the table rows from smart contract
+      mobileOpen: false
     };
-    this.handleFormEvent = this.handleFormEvent.bind(this);
+    this.handleDrawerToggle = () => {
+      this.setState(state => ({ mobileOpen: !state.mobileOpen }));
+    };
   }
 
   // generic function to handle form events (e.g. "submit" / "reset")
@@ -120,8 +135,22 @@ class Index extends Component {
   }
 
   render() {
-    const { noteTable } = this.state;
-    const { classes } = this.props;
+    // const { noteTable } = this.state;
+    const { classes, theme } = this.props;
+
+    const drawer = (
+      <div>
+        <div className={classes.toolbar} />
+        <List>
+          <ListItem button>
+            <ListItemText primary="Dashboard" />
+          </ListItem>
+          <ListItem button component="a" href="#simple-list">
+            <ListItemText primary="Voting" />
+          </ListItem>
+        </List>
+      </div>
+    );
 
     // generate each note as a card
     const generateCard = (key, timestamp, user, note) => (
@@ -139,62 +168,72 @@ class Index extends Component {
         </CardContent>
       </Card>
     );
-    let noteCards = noteTable.map((row, i) =>
-      generateCard(i, row.timestamp, row.user, row.note));
+    // let noteCards = noteTable.map((row, i) =>
+    //   generateCard(i, row.timestamp, row.user, row.note));
+
+    // <pre className={classes.pre}>
+    //   Below is a list of pre-created accounts information for add/update note:
+    //   <br/><br/>
+    //   accounts = { JSON.stringify(accounts, null, 2) }
+    // </pre>
 
     return (
       <div>
         <AppBar position="static" color="default">
           <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="Open drawer"
+              onClick={this.handleDrawerToggle}
+              className={classes.navIconHide}
+            >
+              <MenuIcon />
+            </IconButton>
             <Typography variant="title" color="inherit">
-              Note Chain
+              StraaS
             </Typography>
           </Toolbar>
         </AppBar>
-        {noteCards}
+        <Hidden mdUp>
+          <Drawer
+            variant="temporary"
+            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+            open={this.state.mobileOpen}
+            onClose={this.handleDrawerToggle}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
+          >
+            {drawer}
+          </Drawer>
+        </Hidden>
+        <Hidden smDown implementation="css">
+          <Drawer
+            variant="permanent"
+            open
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+          >
+            {drawer}
+          </Drawer>
+        </Hidden>
         <Paper className={classes.paper}>
-          <form onSubmit={this.handleFormEvent}>
-            <TextField
-              name="account"
-              autoComplete="off"
-              label="Account"
-              margin="normal"
-              fullWidth
-            />
-            <TextField
-              name="privateKey"
-              autoComplete="off"
-              label="Private key"
-              margin="normal"
-              fullWidth
-            />
-            <TextField
-              name="note"
-              autoComplete="off"
-              label="Note (Optional)"
-              margin="normal"
-              multiline
-              rows="10"
-              fullWidth
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.formButton}
-              type="submit">
-              Add / Update note
-            </Button>
-          </form>
+          Dashboard
         </Paper>
-        <pre className={classes.pre}>
-          Below is a list of pre-created accounts information for add/update note:
-          <br/><br/>
-          accounts = { JSON.stringify(accounts, null, 2) }
-        </pre>
+
       </div>
     );
   }
 
 }
 
-export default withStyles(styles)(Index);
+Index.propTypes = {
+  classes: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles, { withTheme: true })(Index);
