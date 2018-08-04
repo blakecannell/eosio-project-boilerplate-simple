@@ -20,24 +20,38 @@ const styles = theme => ({
 class Dashboard extends Component {
   constructor(props) {
     super(props)
-    this.state = {};
-    console.log("dash construct");
+    this.state = {
+      proposals: []
+    };
+    this.api = this.props.api;
   }
 
   componentDidMount() {
-
+    this.api.getProposals().then(res => {
+      if (res.success) {
+        this.setState({ proposals: res.proposals });
+      }
+    });
   }
 
   render() {
     // const { noteTable } = this.state;
-    const { classes } = this.props;
+    const { classes } = this.props,
+          { proposals } = this.state;
 
     return (
-      <Grid container spacing={24}>
-        <Paper className={classes.paper}>
-          Dashboard
-        </Paper>
-      </Grid>
+      <React.Fragment>
+        <h2>Active Proposals</h2>
+        <Grid container>
+          {proposals.map((prop, i) => {
+            return <Grid item xs={12}>
+              <Paper key={i} className={classes.paper}>
+                {prop.name}
+              </Paper>
+            </Grid>
+          })}
+        </Grid>
+      </React.Fragment>
     );
   }
 

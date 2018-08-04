@@ -41,13 +41,13 @@ class Proposals extends Component {
 
     return (
       <Grid container spacing={24}>
-        <Grid item xs={6}>
           {proposals.map((prop, i) => {
-            return <Paper key={i} className={classes.paper}>
-              {prop.name}
-            </Paper>
+            return <Grid item xs={12}>
+              <Paper key={i} className={classes.paper}>
+                {prop.name}
+              </Paper>
+            </Grid>
           })}
-        </Grid>
       </Grid>
     );
   }
