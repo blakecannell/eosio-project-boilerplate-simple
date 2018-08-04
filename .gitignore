@@ -9,7 +9,7 @@ backend/node_modules
 frontend/build
 
 #compile contract files
-**/*.abi
+#**/*.abi
 **/*.wasm
 **/*.wast
 
