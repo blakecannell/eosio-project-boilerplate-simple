@@ -45,6 +45,8 @@ app.get("/proposals", (req, res) => {
 });
 
 app.post("/createProposal",(req, res) => EosController.createProposal(req,res));
-
+app.post("/castVote", (req, res) => EosController.castVote(req,res));
+app.get("/getAll", (req, res) => EosController.getAll(req, res));
+app.get("/getById", (req, res) => EosController.getById(req, res));
 
 module.exports = app;
