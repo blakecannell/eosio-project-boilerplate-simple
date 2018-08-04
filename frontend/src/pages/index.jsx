@@ -25,8 +25,8 @@ import Api from '../api';
 
 // pages
 import Dashboard from './dashboard';
-import Proposals from './proposals';
-import Voting from './voting';
+import Proposal from './proposal';
+import CreateProposal from './create-proposal';
 
 // NEVER store private keys in any source code in your real life development
 // This is for demo purposes only!
@@ -159,8 +159,8 @@ class Index extends Component {
             </Link>
           </ListItem>
           <ListItem button>
-            <Link to="/voting" onClick={this.handleDrawerToggle.bind(this)}>
-              <ListItemText>Voting</ListItemText>
+            <Link to="/create" onClick={this.handleDrawerToggle.bind(this)}>
+              <ListItemText>Create Proposal</ListItemText>
             </Link>
           </ListItem>
         </List>
@@ -236,11 +236,11 @@ class Index extends Component {
             <Route exact path="/" render={() => (
               <Dashboard api={this.api} />
             )}/>
-            <Route path="/proposals" render={() => (
-              <Proposals api={this.api} />
+            <Route path="/proposal/:id" render={({ match }) => (
+              <Proposal api={this.api} params={match.params} />
             )}/>
-            <Route path="/voting" render={() => (
-              <Voting api={this.api} />
+            <Route path="/create" render={() => (
+              <CreateProposal api={this.api} />
             )}/>
           </div>
         </div>
