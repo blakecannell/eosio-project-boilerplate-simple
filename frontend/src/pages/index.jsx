@@ -10,19 +10,20 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Hidden from '@material-ui/core/Hidden';
-import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import Grid from '@material-ui/core/Grid';
 import style from './index.css';
+
+// pages
+import Dashboard from './dashboard';
+import Proposals from './proposals';
+import Voting from './voting';
 
 // NEVER store private keys in any source code in your real life development
 // This is for demo purposes only!
@@ -58,8 +59,6 @@ const styles = theme => ({
   toolbar: theme.mixins.toolbar,
 });
 
-console.log('toolbar', styles);
-
 // Index component
 class Index extends Component {
 
@@ -71,7 +70,6 @@ class Index extends Component {
     this.handleDrawerToggle = () => {
       this.setState(state => ({ mobileOpen: !state.mobileOpen }));
     };
-    console.log("index construct");
   }
 
   // generic function to handle form events (e.g. "submit" / "reset")
@@ -116,7 +114,6 @@ class Index extends Component {
       }],
     });
 
-    console.log(result);
     this.getTable();
   }
 
@@ -138,8 +135,6 @@ class Index extends Component {
   }
 
   render() {
-    let root = "/";
-    // const { noteTable } = this.state;
     const { classes, theme } = this.props;
 
     const drawer = (
@@ -239,32 +234,13 @@ class Index extends Component {
 
           <div>
             <Route exact path="/" render={() => (
-              <Grid container spacing={24}>
-                <Paper className={classes.paper}>
-                  Dashboard
-                </Paper>
-              </Grid>
+              <Dashboard />
             )}/>
             <Route path="/proposals" render={() => (
-              <Grid container spacing={24}>
-                <Grid item xs={6}>
-                  <Paper className={classes.paper}>
-                    <ul>
-                      <li>Open Proposals</li>
-                      <li>Create Proposal</li>
-                    </ul>
-                  </Paper>
-                </Grid>
-              </Grid>
+              <Proposals />
             )}/>
             <Route path="/voting" render={() => (
-              <Grid container spacing={24}>
-                <Grid item xs={6}>
-                  <Paper className={classes.paper}>
-                    Voting
-                  </Paper>
-                </Grid>
-              </Grid>
+              <Voting />
             )}/>
           </div>
         </div>
