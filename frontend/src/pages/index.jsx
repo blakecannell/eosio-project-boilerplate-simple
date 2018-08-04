@@ -18,7 +18,10 @@ import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import style from './index.css';
+// import style from './index.css';
+
+// api
+import Api from '../api';
 
 // pages
 import Dashboard from './dashboard';
@@ -70,6 +73,7 @@ class Index extends Component {
     this.handleDrawerToggle = () => {
       this.setState(state => ({ mobileOpen: !state.mobileOpen }));
     };
+    this.api = new Api();
   }
 
   // generic function to handle form events (e.g. "submit" / "reset")
@@ -234,13 +238,13 @@ class Index extends Component {
 
           <div>
             <Route exact path="/" render={() => (
-              <Dashboard />
+              <Dashboard api={this.api} />
             )}/>
             <Route path="/proposals" render={() => (
-              <Proposals />
+              <Proposals api={this.api} />
             )}/>
             <Route path="/voting" render={() => (
-              <Voting />
+              <Voting api={this.api} />
             )}/>
           </div>
         </div>

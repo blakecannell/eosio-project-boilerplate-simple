@@ -20,27 +20,33 @@ const styles = theme => ({
 class Proposals extends Component {
   constructor(props) {
     super(props)
-    this.state = {};
-    console.log("dash construct");
+    this.state = {
+      proposals: []
+    };
+    this.api = this.props.api;
   }
 
   componentDidMount() {
-
+    this.api.getProposals().then(res => {
+      if (res.success) {
+        this.setState({ proposals: res.proposals });
+      }
+    });
   }
 
   render() {
     // const { noteTable } = this.state;
-    const { classes } = this.props;
+    const { classes } = this.props,
+          { proposals } = this.state;
 
     return (
       <Grid container spacing={24}>
         <Grid item xs={6}>
-          <Paper className={classes.paper}>
-            <ul>
-              <li>Open Proposals</li>
-              <li>Create Proposal</li>
-            </ul>
-          </Paper>
+          {proposals.map((prop, i) => {
+            return <Paper key={i} className={classes.paper}>
+              {prop.name}
+            </Paper>
+          })}
         </Grid>
       </Grid>
     );
