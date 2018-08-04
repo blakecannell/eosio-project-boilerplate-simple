@@ -32,7 +32,7 @@ void straas::castvote(const account_name& user, uint64_t proposal, uint8_t vote)
    }
 
    m_vote_table votes(_self, _self);  // code, scope
-   auto proposal_index = votes.get_index<N(proposal)>();
+   auto proposal_index = votes.get_index<N(prop)>();
 
    auto matchingItem = proposal_index.lower_bound(proposal);
 
@@ -52,10 +52,11 @@ void straas::castvote(const account_name& user, uint64_t proposal, uint8_t vote)
      if (matchingItem->vote_value == 0) {
        ui_No_Votes++;
      }
+     matchingItem++;
    }
 
    m_votes.emplace(get_self(), [&](auto& p) {
-     p.key = m_proposals.available_primary_key();
+     p.key = m_votes.available_primary_key();
      p.proposal = proposal;
      p.voter = user;
      p.vote_value = vote;
@@ -86,7 +87,7 @@ void straas::castvote(const account_name& user, uint64_t proposal, uint8_t vote)
    }
 }
 
-void straas::addalloweduser(const account_name& newuser)
+void straas::adduser(const account_name& newuser)
 {
   require_auth(get_self());
 
@@ -97,7 +98,7 @@ void straas::addalloweduser(const account_name& newuser)
   });
 }
 
-void straas::removealloweduser(const account_name& newuser)
+void straas::removeuser(const account_name& newuser)
 {
   require_auth(get_self());
 
@@ -106,7 +107,7 @@ void straas::removealloweduser(const account_name& newuser)
   m_allowedusers.erase(itr);
 }
 
-void straas::deleteeverything(const account_name& systemadmin)
+void straas::deleteall(const account_name& systemadmin)
 {
   require_auth(get_self());
 
