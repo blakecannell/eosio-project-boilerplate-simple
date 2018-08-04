@@ -66,23 +66,18 @@ class EosController {
 
 	async getById(req, res) {
         try {
-            const response = eos.getTableRows(
+            const id = req.params.id;
+            const response = await eos.getTableRows(
                 {
                     json: true,
                     code: contractName, //eos.token
                     scope: contractName, //
                     table: tableName, //the name of the table
-					lower_bound: req.body.id,
+					table_key: 0,
+                    lower_bound: id,
                     limit: numberOfResults //maximum number of
                 }
-            ).then(
-                (result) => {
-                    return result
-                }).catch(
-                (err) => {
-                    console.log(err);
-                    res.status(500).send(err);
-                });
+            );
             res.send(response);
         } catch (err) {
             console.log(err);
