@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Eos from 'eosjs'; // https://github.com/EOSIO/eosjs
 import PropTypes from 'prop-types';
+import { Link, BrowserRouter as Router, Route } from 'react-router-dom';
 
 // material-ui dependencies
 import { withStyles } from '@material-ui/core/styles';
@@ -9,18 +10,23 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Hidden from '@material-ui/core/Hidden';
-import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import style from './index.css';
+// import style from './index.css';
+
+// api
+import Api from '../api';
+
+// pages
+import Dashboard from './dashboard';
+import Proposals from './proposals';
+import Voting from './voting';
 
 // NEVER store private keys in any source code in your real life development
 // This is for demo purposes only!
@@ -56,8 +62,6 @@ const styles = theme => ({
   toolbar: theme.mixins.toolbar,
 });
 
-console.log('toolbar', styles);
-
 // Index component
 class Index extends Component {
 
@@ -69,6 +73,7 @@ class Index extends Component {
     this.handleDrawerToggle = () => {
       this.setState(state => ({ mobileOpen: !state.mobileOpen }));
     };
+    this.api = new Api();
   }
 
   // generic function to handle form events (e.g. "submit" / "reset")
@@ -113,7 +118,6 @@ class Index extends Component {
       }],
     });
 
-    console.log(result);
     this.getTable();
   }
 
@@ -135,7 +139,6 @@ class Index extends Component {
   }
 
   render() {
-    // const { noteTable } = this.state;
     const { classes, theme } = this.props;
 
     const drawer = (
@@ -143,10 +146,19 @@ class Index extends Component {
         <div className={classes.toolbar} />
         <List>
           <ListItem button>
-            <ListItemText primary="Dashboard" />
+            <Link to="/" onClick={this.handleDrawerToggle.bind(this)}>
+              <ListItemText>Dashboard</ListItemText>
+            </Link>
           </ListItem>
-          <ListItem button component="a" href="#simple-list">
-            <ListItemText primary="Voting" />
+          <ListItem button>
+            <Link to="/proposals" onClick={this.handleDrawerToggle.bind(this)}>
+              <ListItemText>Proposals</ListItemText>
+            </Link>
+          </ListItem>
+          <ListItem button>
+            <Link to="/voting" onClick={this.handleDrawerToggle.bind(this)}>
+              <ListItemText>Voting</ListItemText>
+            </Link>
           </ListItem>
         </List>
       </div>
@@ -177,55 +189,66 @@ class Index extends Component {
     //   accounts = { JSON.stringify(accounts, null, 2) }
     // </pre>
 
-    return (
-      <div>
-        <AppBar position="static" color="default">
-          <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="Open drawer"
-              onClick={this.handleDrawerToggle}
-              className={classes.navIconHide}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="title" color="inherit">
-              StraaS
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <Hidden mdUp>
-          <Drawer
-            variant="temporary"
-            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-            open={this.state.mobileOpen}
-            onClose={this.handleDrawerToggle}
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            ModalProps={{
-              keepMounted: true, // Better open performance on mobile.
-            }}
-          >
-            {drawer}
-          </Drawer>
-        </Hidden>
-        <Hidden smDown implementation="css">
-          <Drawer
-            variant="permanent"
-            open
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-          >
-            {drawer}
-          </Drawer>
-        </Hidden>
-        <Paper className={classes.paper}>
-          Dashboard
-        </Paper>
+    //
 
-      </div>
+    return (
+      <Router>
+        <div>
+          <AppBar position="static" color="default">
+            <Toolbar>
+              <IconButton
+                color="inherit"
+                aria-label="Open drawer"
+                onClick={this.handleDrawerToggle}
+                className={classes.navIconHide}>
+                <MenuIcon />
+              </IconButton>
+              <Typography variant="title" color="inherit">
+                StraaS
+              </Typography>
+            </Toolbar>
+          </AppBar>
+          <Hidden mdUp>
+            <Drawer
+              variant="temporary"
+              anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+              open={this.state.mobileOpen}
+              onClose={this.handleDrawerToggle}
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+              ModalProps={{
+                keepMounted: true, // Better open performance on mobile.
+              }}
+            >
+              {drawer}
+            </Drawer>
+          </Hidden>
+          <Hidden smDown implementation="css">
+            <Drawer
+              variant="permanent"
+              open
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+            >
+              {drawer}
+            </Drawer>
+          </Hidden>
+
+          <div>
+            <Route exact path="/" render={() => (
+              <Dashboard api={this.api} />
+            )}/>
+            <Route path="/proposals" render={() => (
+              <Proposals api={this.api} />
+            )}/>
+            <Route path="/voting" render={() => (
+              <Voting api={this.api} />
+            )}/>
+          </div>
+        </div>
+      </Router>
     );
   }
 
