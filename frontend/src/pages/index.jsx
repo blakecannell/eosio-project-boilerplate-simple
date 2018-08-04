@@ -18,6 +18,7 @@ import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import Avatar from '@material-ui/core/Avatar';
 import style from './index.css';
 
 // api
@@ -194,14 +195,6 @@ class Index extends Component {
 
     //
 
-    // <IconButton
-    // color="inherit"
-    // aria-label="Open drawer"
-    // onClick={this.handleDrawerToggle}
-    // className={classes.navIconHide}>
-    // <MenuIcon />
-    // </IconButton>
-
     return (
       <Router>
         <div>
@@ -215,6 +208,14 @@ class Index extends Component {
               <Typography variant="title" color="inherit" className="tagline">
                 Strata As A Service...
               </Typography>
+              <IconButton
+              color="inherit"
+              aria-label="Open drawer"
+              onClick={this.handleDrawerToggle}
+              className={classes.navIconHide}>
+              <MenuIcon />
+              </IconButton>
+              <Avatar alt="Anya Nova" src="/img/anya.jpeg" className={classes.avatar} />
             </Toolbar>
           </AppBar>
           <Drawer

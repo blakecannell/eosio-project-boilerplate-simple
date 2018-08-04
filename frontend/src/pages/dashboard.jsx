@@ -30,6 +30,7 @@ class Dashboard extends Component {
 
   componentDidMount() {
     this.api.getProposals().then(res => {
+      // console.log("GET ALL", res);
       if (res.success) {
         this.setState({ proposals: res.proposals });
       }
@@ -43,21 +44,23 @@ class Dashboard extends Component {
 
     return (
       <React.Fragment>
-        <h2>Active Proposals</h2>
-        <Grid container>
-          {proposals.map((prop, i) => {
-            return <Grid item xs={12}>
-              <Paper key={i} className={classes.paper}>
-                {prop.name}
-              </Paper>
-            </Grid>
-          })}
-          <Grid container>
-          <Button variant="contained" color="primary" className="btn">
-            <Link to="/create">
-              Create Proposal
-            </Link>
-          </Button>
+        <Grid container spacing={24}>
+          <Grid item xs={8} container direction="row" className="centeredContainer singleProposal">
+            <Paper className="paper">
+              <h1>Active Proposals</h1>
+              {proposals.map((prop, i) => {
+                return <Grid item xs={12}>
+                  <Paper key={i} className={classes.paper}>
+                    {prop.name}
+                  </Paper>
+                </Grid>
+              })}
+              <Button variant="contained" color="primary" className="btn">
+                <Link to="/create">
+                  Create Proposal
+                </Link>
+              </Button>
+            </Paper>
           </Grid>
         </Grid>
       </React.Fragment>
