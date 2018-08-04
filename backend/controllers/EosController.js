@@ -50,7 +50,7 @@ class EosController {
                 	return result
                 }).catch(
                 (err) => {
-                    console.log.error(err);
+                    console.log(err);
                     res.status(500).send(err);
                 });
             res.send(response);
