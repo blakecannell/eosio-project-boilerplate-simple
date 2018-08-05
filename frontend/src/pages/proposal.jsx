@@ -97,7 +97,25 @@ class Proposal extends Component {
           tied = proposal.isclosed && proposal.result === 2,
           decision = accepted ? 'accepted' : (tied ? 'tied' : 'declined');
 
-          proposal.desc = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.";
+          let pdfImg, pdfClasses,
+            yesBtn = "Vote Yes",
+            noBtn = "Vote No";
+
+          if (this.props.params.id === "0") {
+            proposal.desc = "Efficient, reliable and sustainable biodiesel power generator Crowdfunding project.";
+            pdfImg = "../img/biofuel.jpg";
+            pdfClasses = "pdfBio";
+            yesBtn = "Contribute $1,000";
+            noBtn = "Decline";
+          } else if (this.props.params.id === "6") {
+            proposal.desc = "Allow Airbnb Rentals within our Strata - See the attached PDF. ";
+            pdfImg = "../img/pdf-create.png";
+            pdfClasses = "pdfPrev";
+          } else {
+            proposal.desc = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.";
+            pdfImg = "../img/pdf-prev.png";
+            pdfClasses = "pdfPrev";
+          }
 
     return (
       <Grid container spacing={24}>
@@ -121,8 +139,8 @@ class Proposal extends Component {
                   <Grid item xs={6}>
                     <p>{proposal.desc}</p>
                   </Grid>
-                  <Grid item xs={6} className="pdfPrev">
-                    <img src="../img/pdf-prev.png"/>
+                  <Grid item xs={6} className={pdfClasses}>
+                    <img src={pdfImg} />
                   </Grid>
                 </Grid>
                 { status === 'open' ?
@@ -134,18 +152,21 @@ class Proposal extends Component {
                       <Grid container spacing={8}>
                         <Grid item xs={6} className="pdfPrev">
                           <Button variant="contained" color="primary" className="voting-btn" onClick={this.voteYes.bind(this)}>
-                            Vote Yes
+                            {yesBtn}
                           </Button>
                         </Grid>
                         <Grid item xs={6} className="pdfPrev">
                           <Button variant="contained" color="primary" className="voting-btn">
-                            Vote No
+                            {noBtn}
                           </Button>
                         </Grid>
                       </Grid>
                     </React.Fragment>
                   }
-                </React.Fragment> : null
+                </React.Fragment> : <React.Fragment>
+                { decision === 'accepted' ?
+                  <h1>Proposal Accepted!</h1> : <h1>Proposal Rejected.</h1> }
+                </React.Fragment>
               }
               </React.Fragment> :
               <React.Fragment>

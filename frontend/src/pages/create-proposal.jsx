@@ -25,7 +25,10 @@ class CreateProposal extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      proposal: {}
+      proposal: {
+        title: "Airbnb Rentals",
+        description: "Allow Airbnb Rentals within our Strata - See the attached PDF."
+      }
     };
     this.api = this.props.api;
 
@@ -108,7 +111,14 @@ class CreateProposal extends Component {
                      id="document" name="document"
                      accept="application/pdf"
                      onChange={this.handleFileUpload.bind(this)}/>
-                  <span>{proposal.documenthash}</span>
+                </Grid>
+                <Grid item xs={6}>
+                    <h4 className="create-h4">Proposal Description</h4>
+                    <textarea className="proposal-input">{this.state.proposal.description}</textarea>
+                </Grid>
+                <Grid item xs={6} className="pdfPrev">
+                  { proposal.documenthash ?
+                    <img src="../img/pdf-create.png"/> : <span/> }
                 </Grid>
               </Grid>
               </form>

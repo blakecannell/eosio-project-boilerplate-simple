@@ -19,6 +19,9 @@ const styles = theme => ({
     ...theme.mixins.gutters(),
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
+  },
+  button: {
+    color: '#fff'
   }
 });
 
@@ -55,11 +58,11 @@ class Dashboard extends Component {
             <Paper className="paper">
               <h1>
                 Active Proposals
-                <Button variant="contained" color="primary" className="btn fr">
-                  <Link to="/create">
-                    Create Proposal
-                  </Link>
-                </Button>
+                <Link to="/create">
+                  <Button variant="contained" color="primary" className="btn fr">
+                      Create Proposal
+                  </Button>
+                </Link>
               </h1>
               {proposals.map((prop, i) => {
                 let status = prop.isclosed ? 'closed' : 'open',
