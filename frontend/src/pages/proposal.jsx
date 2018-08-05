@@ -79,11 +79,11 @@ class Proposal extends Component {
                   {proposal.title}
                   { status === 'open' ?
                   <Chip
-                  label="Open"
+                  label="Open for voting"
                   className="chip open"
                   /> :
                   <Chip
-                  label={decision}
+                  label={`Proposal ${decision}`}
                   className={`chip ${decision}`}
                   /> }
                 </h1>
@@ -97,15 +97,21 @@ class Proposal extends Component {
                 </Grid>
                 { status === 'open' ?
                 <React.Fragment>
-                  <Button variant="contained" color="primary" className="btn">
-                    Vote Yes
-                  </Button>
-                  <Button variant="contained" color="primary" className="btn">
-                    Vote No
-                  </Button>
-                </React.Fragment> :
-                <span>Voting is over - The community {decision} the proposal.</span>
-                }
+                  <h1>Vote now</h1>
+                  <Grid container spacing={8}>
+                    <Grid item xs={6} className="pdfPrev">
+                      <Button variant="contained" color="primary" className="voting-btn">
+                        Vote Yes
+                      </Button>
+                    </Grid>
+                    <Grid item xs={6} className="pdfPrev">
+                      <Button variant="contained" color="primary" className="voting-btn">
+                        Vote No
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </React.Fragment> : null
+              }
               </React.Fragment> :
               <React.Fragment>
                 <CircularProgress className="straas-loader" thickness={7} />

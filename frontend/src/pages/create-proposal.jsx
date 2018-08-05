@@ -97,15 +97,20 @@ class CreateProposal extends Component {
             <Paper className="paper">
               <h1>Create Proposal</h1>
               <form>
-                <h4>Proposal Name</h4>
-                <input type="text" name="title" value={proposal.title} onChange={this.handleInputChange.bind(this)} />
-                <h4>Proposal Document</h4>
-                <input type="file"
-                   id="document" name="document"
-                   accept="application/pdf"
-                   onChange={this.handleFileUpload.bind(this)}/>
-                <h4>Hash</h4>
-                <span>{proposal.documenthash}</span>
+              <Grid container>
+                <Grid item xs={6}>
+                    <h4 className="create-h4">Proposal Name</h4>
+                    <input className="proposal-input" type="text" name="title" value={proposal.title} onChange={this.handleInputChange.bind(this)} />
+                </Grid>
+                <Grid item xs={6}>
+                  <h4 className="create-h4">Proposal Document</h4>
+                  <input type="file"
+                     id="document" name="document"
+                     accept="application/pdf"
+                     onChange={this.handleFileUpload.bind(this)}/>
+                  <span>{proposal.documenthash}</span>
+                </Grid>
+              </Grid>
               </form>
               <Button variant="contained" color="primary" className="btn" onClick={this.submitProposal.bind(this)}>
                 Submit Proposal
