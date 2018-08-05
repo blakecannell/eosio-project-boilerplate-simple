@@ -1,4 +1,5 @@
 Eos = require('eosjs');
+_ = require('lodash');
 config = {
     chainId: null, // 32 byte (64 char) hex string
     keyProvider: ['5JXYNSdz1h9UgrRpvWQiGi21VB269BQ31CVRSNXQRMRTjY9kjRE'], // WIF string or array of keys..
@@ -8,6 +9,7 @@ config = {
     verbose: false, // API activity
     sign: true
 };
+
 accountName = "johnsmith123";
 contractName = "straasapp112";
 tableName = "proposal";
@@ -91,6 +93,26 @@ class EosController {
             res.status(500).send(err);
         }
 	}
+
+    async getVotes(req, res) {
+        try {
+            const response = await eos.getTableRows(
+                {
+                    json: true,
+                    code: contractName, //eos.token
+                    scope: contractName, //
+                    table: "vote", //the name of the table
+                    table_key: 1,
+                    limit: numberOfResults //maximum number of
+                }
+            );
+            res.send(response);
+            console.log(response);
+        } catch (err) {
+            console.log(err);
+            res.status(500).send(err);
+        }
+    }
 
 }
 
