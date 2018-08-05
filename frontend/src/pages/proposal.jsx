@@ -11,6 +11,8 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import style from './index.css';
 
+import _ from 'lodash';
+
 import { Document } from 'react-pdf'
 
 const styles = theme => ({
@@ -26,7 +28,8 @@ class Proposal extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      proposal: {}
+      proposal: {},
+      hasVoted: false
     };
     this.api = this.props.api;
 
@@ -34,28 +37,55 @@ class Proposal extends Component {
   }
 
   componentDidMount() {
-    console.log('id', this.props.params.id);
+    this.testHasVoted();
+
     this.api.getById(this.props.params.id).then(res => {
       console.log('res', res);
       if (res.success) {
-        this.setState({ proposal: res.proposal });
+        this.setState({
+          ...this.state,
+          proposal: res.proposal
+        });
       }
     });
+  }
 
-    // this.setState({ proposal: { id: 0,
-    //   name: 'Proposal name',
-    //   desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    //   isclosed: 1
-    // }});
+  testHasVoted() {
+    this.api.getVotes().then(results => {
+      let hasVoted = false;
 
-    // isclosed:
-    // 0 - Open
-    // 1 - Closed
+      console.log('get votes', this.props.params.id, results);
 
-    // result:
-    // 0 - No
-    // 1 - Yes
-    // 2 - Tie
+      _.forEach(results.rows, (row) => {
+          if (row.proposal === parseInt(this.props.params.id, 10) && row.voter === 'johnsmith123') {
+            hasVoted = true;
+          }
+          console.log('hasVoted', hasVoted);
+      });
+
+      console.log('hasVoted final', hasVoted);
+      this.setState({hasVoted: hasVoted});
+    })
+  }
+
+  voteYes() {
+    let parsedId = parseInt(this.props.params.id, 10);
+    this.api.castVote({ proposal: parsedId, vote: 1 }).then((res) => {
+      this.api.getById(parsedId).then((res) => {
+        this.setState({ proposal: res.proposal });
+        this.testHasVoted();
+      });
+    });
+  }
+
+  voteNo() {
+    let parsedId = parseInt(this.props.params.id, 10);
+    this.api.castVote({ proposal: parsedId, vote: 0 }).then((res) => {
+      this.api.getById(parsedId).then((res) => {
+        this.setState({ proposal: res.proposal });
+        this.testHasVoted();
+      });
+    });
   }
 
   render() {
@@ -97,19 +127,24 @@ class Proposal extends Component {
                 </Grid>
                 { status === 'open' ?
                 <React.Fragment>
-                  <h1>Vote now</h1>
-                  <Grid container spacing={8}>
-                    <Grid item xs={6} className="pdfPrev">
-                      <Button variant="contained" color="primary" className="voting-btn">
-                        Vote Yes
-                      </Button>
-                    </Grid>
-                    <Grid item xs={6} className="pdfPrev">
-                      <Button variant="contained" color="primary" className="voting-btn">
-                        Vote No
-                      </Button>
-                    </Grid>
-                  </Grid>
+                  { this.state.hasVoted ?
+                    <h1>Thanks for your vote</h1> :
+                    <React.Fragment>
+                      <h1>Vote now</h1>
+                      <Grid container spacing={8}>
+                        <Grid item xs={6} className="pdfPrev">
+                          <Button variant="contained" color="primary" className="voting-btn" onClick={this.voteYes.bind(this)}>
+                            Vote Yes
+                          </Button>
+                        </Grid>
+                        <Grid item xs={6} className="pdfPrev">
+                          <Button variant="contained" color="primary" className="voting-btn">
+                            Vote No
+                          </Button>
+                        </Grid>
+                      </Grid>
+                    </React.Fragment>
+                  }
                 </React.Fragment> : null
               }
               </React.Fragment> :

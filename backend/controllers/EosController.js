@@ -106,8 +106,8 @@ class EosController {
                     limit: numberOfResults //maximum number of
                 }
             );
-            res.send(response);
             console.log(response);
+            res.send(response);
         } catch (err) {
             console.log(err);
             res.status(500).send(err);
