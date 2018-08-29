@@ -1,6 +1,4 @@
-#Straas
-
-StraaS is EOS-powered platform for property owners. It was built over the course of the EOS Sydney Hackathon (August 4/5, 2018) by the following team members;
+StraaS is an EOS-powered platform for property owners. It was built over the course of the EOS Sydney Hackathon (August 4/5, 2018) by the following team members;
 
 - Anya Nova
 - Blake Cannell
